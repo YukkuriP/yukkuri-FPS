@@ -10,8 +10,10 @@ const G := 9.81
 var match_node: Node
 var bullets: Array = []
 
-func fire(origin: Vector3, velocity: Vector3, w: Dictionary, weapon_id: String, shooter: Node, authoritative: bool, tracer: bool) -> void:
-	var b := {"p": origin, "v": velocity, "w": w, "id": weapon_id, "shooter": shooter, "auth": authoritative,
+func fire(origin: Vector3, velocity: Vector3, w: Dictionary, weapon_id: String, shooter: Node, authoritative: bool, tracer: bool, source: Node = null) -> void:
+	if source == null:
+		source = shooter
+	var b := {"src": source, "p": origin, "v": velocity, "w": w, "id": weapon_id, "shooter": shooter, "auth": authoritative,
 		"life": 4.0 if not w.get("rocket", false) else 8.0, "origin": origin, "mesh": null, "whizzed": false}
 	if w.get("rocket", false):
 		var mi := MeshInstance3D.new()
@@ -92,8 +94,8 @@ func _step(b: Dictionary, dt: float, space: PhysicsDirectSpaceState3D) -> bool:
 	var qp := PhysicsRayQueryParameters3D.create(from, to, 1 | 4 | 8 | 16)
 	qp.collide_with_areas = true
 	qp.hit_back_faces = false
-	if is_instance_valid(b.shooter) and b.shooter.has_method("get_exclude_rids"):
-		qp.exclude = b.shooter.get_exclude_rids()
+	if is_instance_valid(b.src) and b.src.has_method("get_exclude_rids"):
+		qp.exclude = b.src.get_exclude_rids()
 	var hit := space.intersect_ray(qp)
 	_update_whiz(b, from, to)
 	if hit.is_empty():
@@ -110,7 +112,7 @@ func _step(b: Dictionary, dt: float, space: PhysicsDirectSpaceState3D) -> bool:
 	var dist := pos.distance_to(b.origin)
 	if w.get("rocket", false):
 		if b.auth:
-			match_node.request_explosion(pos - v.normalized() * 0.3, w.radius, w.dmg, b.shooter, b.id)
+			match_node.request_explosion(pos - v.normalized() * 0.3, w.radius, w.dmg, b.shooter if is_instance_valid(b.shooter) else null, b.id)
 		return true
 	var f: Array = w.falloff
 	var dmg: float = w.dmg * lerpf(1.0, f[2], clampf((dist - f[0]) / maxf(1.0, f[1] - f[0]), 0.0, 1.0))
@@ -119,13 +121,13 @@ func _step(b: Dictionary, dt: float, space: PhysicsDirectSpaceState3D) -> bool:
 		var head: bool = col.get_meta("part") == "head"
 		Fx.impact(self, pos, hit.normal, true)
 		if b.auth:
-			match_node.report_hit(b.shooter, s, dmg * (w.mult_head if head else 1.0), head, b.id)
+			match_node.report_hit(b.shooter if is_instance_valid(b.shooter) else null, s, dmg * (w.mult_head if head else 1.0), head, b.id)
 		return true
 	if col and col.has_meta("vehicle"):
 		Fx.impact(self, pos, hit.normal, false, false)
 		Sfx.play_at("impact", pos, self, -2.0, 80.0)
 		if b.auth:
-			match_node.report_vehicle_hit(b.shooter, col.get_meta("vehicle"), dmg * 0.15, b.id)
+			match_node.report_vehicle_hit(b.shooter if is_instance_valid(b.shooter) else null, col.get_meta("vehicle"), dmg * (0.35 if b.id == "dmr" else 0.12), b.id)
 		return true
 	var dirt := col != null and col.has_meta("terrain")
 	Fx.impact(self, pos, hit.normal, false, dirt)

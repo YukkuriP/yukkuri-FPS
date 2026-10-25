@@ -20,9 +20,18 @@ const DATA := {
 		"sound": "rpg", "tracer_every": 0, "rocket": true, "radius": 7.5, "gravity": 0.25, "falloff": [9999.0, 9999.0, 1.0], "mult_head": 1.0},
 }
 
+const VEHICLE_WEAPONS := {
+	"shell": {"name": "W_VEHICLE", "dmg": 230.0, "rpm": 15.0, "vel": 240.0, "drag": 0.0, "mag": 1, "reserve": 99, "reload": 3.5,
+		"auto": false, "rocket": true, "radius": 7.0, "gravity": 1.0, "sound": "rpg", "tracer_every": 0, "falloff": [9999.0, 9999.0, 1.0], "mult_head": 1.0},
+	"mg": {"name": "W_VEHICLE", "dmg": 26.0, "rpm": 650.0, "vel": 820.0, "drag": 0.0009, "mag": 200, "reserve": 999, "reload": 0.0,
+		"auto": true, "sound": "ar", "tracer_every": 2, "falloff": [80.0, 500.0, 0.6], "mult_head": 1.6},
+}
+
 const GRENADE := {"dmg": 140.0, "radius": 7.0, "fuse": 3.2, "count": 3}
 
 static func get_w(id: String) -> Dictionary:
+	if VEHICLE_WEAPONS.has(id):
+		return VEHICLE_WEAPONS[id]
 	return DATA.get(id, DATA["ar"])
 
 static func index_of(id: String) -> int:

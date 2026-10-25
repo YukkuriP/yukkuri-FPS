@@ -28,7 +28,8 @@ var _rids: Array[RID] = []
 
 func setup_body(show_model: bool) -> void:
 	collision_layer = 2
-	collision_mask = 1 | 4 | 8
+	set_meta("soldier_body", true)
+	collision_mask = 1 | 8
 	var cs := CollisionShape3D.new()
 	var cap := CapsuleShape3D.new()
 	cap.radius = 0.35
