@@ -75,9 +75,9 @@ static func pbr(key: String, color: Color, rough: float, metal := 0.0, normal_st
 	m.metallic = metal
 	var s := mini(tex_size(), 512)
 	var g := Gradient.new()
-	g.set_color(0, Color(0.72, 0.72, 0.72))
+	g.set_color(0, Color(0.84, 0.84, 0.84))
 	g.set_color(1, Color(1.0, 1.0, 1.0))
-	var nt := noise_tex(key + "_alb", 0.03, s, false, 6)
+	var nt := noise_tex(key + "_alb", 0.09, s, false, 5)
 	var alb := NoiseTexture2D.new()
 	alb.width = s
 	alb.height = s
@@ -88,9 +88,7 @@ static func pbr(key: String, color: Color, rough: float, metal := 0.0, normal_st
 	m.normal_enabled = normal_strength > 0.0
 	if m.normal_enabled:
 		m.normal_texture = noise_tex(key + "_nrm", 0.05, s, true, 5, FastNoiseLite.TYPE_SIMPLEX_SMOOTH, 5.0)
-		m.normal_scale = normal_strength
-	m.roughness_texture = nt
-	m.roughness_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_RED
+		m.normal_scale = normal_strength * 0.45
 	m.uv1_triplanar = true
 	m.uv1_world_triplanar = true
 	m.uv1_scale = Vector3.ONE * 0.35 * scale

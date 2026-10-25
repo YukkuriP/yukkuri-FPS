@@ -18,7 +18,7 @@ static var head_font: Font
 static func get_theme() -> Theme:
 	if _theme:
 		return _theme
-	body_font = load("res://assets/fonts/NotoSansJP.ttf")
+	body_font = load("res://assets/fonts/body_font.tres")
 	var head_base: FontFile = load("res://assets/fonts/Teko.ttf")
 	var hv := FontVariation.new()
 	hv.base_font = head_base

@@ -40,6 +40,7 @@ var score_grid: GridContainer
 var pause_panel: Control
 var end_panel: Control
 var touch: Control
+var _root: Control
 var _hit_t := 0.0
 var _hit_kill := false
 var _hit_head := false
@@ -118,10 +119,16 @@ func _ready() -> void:
 	root.add_child(info_lbl)
 	_build_death(root)
 	_build_score(root)
+	_root = root
 	if Settings.use_touch():
-		touch = TouchControls.new()
-		touch.hud = self
-		root.add_child(touch)
+		enable_touch()
+
+func enable_touch() -> void:
+	if touch:
+		return
+	touch = TouchControls.new()
+	touch.hud = self
+	_root.add_child(touch)
 
 func _lbl(parent: Node, size: int, col: Color, align: int, heading := false) -> Label:
 	var l := Label.new()

@@ -68,8 +68,12 @@ func _build(id: String) -> Node3D:
 			_part(g, _bx(Vector3(0.035, 0.1, 0.04)), Vector3(0, -0.075, 0.07), poly, Vector3(-0.3, 0, 0))  # grip
 			_part(g, _bx(Vector3(0.045, 0.08, 0.22)), Vector3(0, -0.01, 0.22), tan)        # stock
 			_part(g, _bx(Vector3(0.02, 0.012, 0.3)), Vector3(0, 0.045, -0.15), metal)      # rail
-			_part(g, _bx(Vector3(0.042, 0.045, 0.07)), Vector3(0, 0.07, -0.08), poly)      # red dot body
-			_part(g, _bx(Vector3(0.03, 0.03, 0.005)), Vector3(0, 0.075, -0.115), Mats.emissive(Color(1, 0.1, 0.05), 3.0)) # dot
+			_part(g, _bx(Vector3(0.04, 0.012, 0.05)), Vector3(0, 0.052, -0.1), poly)      # red dot base
+			_part(g, _bx(Vector3(0.006, 0.04, 0.012)), Vector3(-0.018, 0.075, -0.115), poly) # hollow frame
+			_part(g, _bx(Vector3(0.006, 0.04, 0.012)), Vector3(0.018, 0.075, -0.115), poly)
+			_part(g, _bx(Vector3(0.042, 0.006, 0.012)), Vector3(0, 0.096, -0.115), poly)
+			_part(g, SphereMesh.new(), Vector3(0, 0.075, -0.115), Mats.emissive(Color(1, 0.1, 0.05), 4.0)) # dot
+			(g.get_child(g.get_child_count() - 1) as MeshInstance3D).scale = Vector3.ONE * 0.0025
 			muzzle_pos[id] = Vector3(0, 0.012, -0.76)
 			ads_pos[id] = Vector3(0, -0.075, -0.24)
 		"smg":
