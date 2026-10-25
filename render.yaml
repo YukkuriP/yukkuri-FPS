@@ -1,0 +1,14 @@
+# Render.com Blueprint - YUKKURI STRIKE multiplayer server (created by ゆっくりP)
+services:
+  - type: web
+    name: yukkuri-strike-server
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install --omit=dev
+    startCommand: node index.js
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: ROOM_SIZE
+        value: "16"
