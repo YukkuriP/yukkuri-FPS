@@ -30,7 +30,7 @@ BUILD = ROOT / "build"
 DIST = ROOT / "dist"
 CREATOR = "ゆっくりP"
 TITLE = "YUKKURI STRIKE"
-REPO = "https://github.com/mucunsazhen959-png/yukkuri-FPS"
+REPO = "https://github.com/YukkuriP/yukkuri-FPS"
 
 TARGETS = {
     "windows": {"preset": "Windows", "out": "windows/YukkuriStrike.exe", "label": "Windows"},

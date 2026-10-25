@@ -19,7 +19,7 @@ A free, cross-platform multiplayer tactical FPS prototype built with **Godot 4.3
 - **Quality presets** (Low/Medium/High/Ultra) — mobile defaults to Low. All textures, models and sounds are procedural (no third-party assets except OFL fonts).
 
 ## Download / ダウンロード
-Get the ZIPs from **[GitHub Releases](https://github.com/mucunsazhen959-png/yukkuri-FPS/releases)**. Each ZIP contains a bilingual `README.txt` with installation steps for every platform.
+Get the ZIPs from **[GitHub Releases](https://github.com/YukkuriP/yukkuri-FPS/releases)**. Each ZIP contains a bilingual `README.txt` with installation steps for every platform.
 各 ZIP に、全プラットフォームの導入手順（日本語・英語）を記載した `README.txt` が同梱されています。
 
 | Platform | File |
