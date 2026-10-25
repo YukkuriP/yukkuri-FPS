@@ -179,7 +179,7 @@ func _process(delta: float) -> void:
 		return
 	vm.visible = true
 	# ADS / sprint blending
-	var want_ads := input_enabled and (Input.is_action_pressed("ads") or touch_hold.ads or _ads_toggle) and reload_t <= 0.0 and swap_t <= 0.0
+	var want_ads: bool = input_enabled and (_act("ads") or touch_hold.ads or _ads_toggle) and reload_t <= 0.0 and swap_t <= 0.0
 	var speed := Vector2(velocity.x, velocity.z).length()
 	var sprinting := _is_sprinting() and speed > 5.0
 	ads = move_toward(ads, 1.0 if want_ads else 0.0, delta * 5.5)
@@ -198,7 +198,7 @@ func _process(delta: float) -> void:
 		if reload_t <= 0.0:
 			_finish_reload()
 	# shooting
-	var trig := input_enabled and (Input.is_action_pressed("fire") or touch_hold.fire)
+	var trig: bool = input_enabled and (_act("fire") or touch_hold.fire)
 	if trig and fire_cd <= 0.0 and reload_t <= 0.0 and swap_t <= 0.0 and sprint_blend < 0.4:
 		if w.auto or not _fire_latch:
 			_fire(w)
@@ -219,6 +219,10 @@ func _process(delta: float) -> void:
 		rl = 1.0 - reload_t / reload_total
 	vm.update(delta, _look_frame, speed, ads, sprint_blend, rl if reload_t > 0.0 else -1.0, is_on_floor())
 	_look_frame = Vector2.ZERO
+
+func _act(a: String) -> bool:
+	# touch screens emulate the mouse; never treat those taps as trigger pulls
+	return not Settings.use_touch() and Input.is_action_pressed(a)
 
 func _is_sprinting() -> bool:
 	if not input_enabled:
@@ -250,7 +254,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if in_vehicle:
 		var mv := _move_input()
-		var fire := input_enabled and (Input.is_action_pressed("fire") or touch_hold.fire)
+		var fire: bool = input_enabled and (_act("fire") or touch_hold.fire)
 		in_vehicle.drive(-mv.y, mv.x, input_enabled and Input.is_action_pressed("jump"), fire, yaw, pitch, delta)
 		global_position = in_vehicle.global_position + Vector3(0, 1.0, 0)
 		camera.global_transform = in_vehicle.camera_transform(yaw, pitch)

@@ -145,9 +145,18 @@ func set_dead(dead: bool) -> void:
 	head_box.collision_layer = 0 if dead else 4
 	body_box.collision_layer = 0 if dead else 4
 	if model:
-		model.visible = not dead
-		if dead:
-			model.rotation.x = 0.0
+		model.visible = true
+		model.rotation = Vector3.ZERO
+		model.position = Vector3.ZERO
+
+func set_in_vehicle(v: Node) -> void:
+	in_vehicle = v
+	var on := v == null
+	($Shape as CollisionShape3D).set_deferred("disabled", not on)
+	head_box.collision_layer = 4 if on and alive else 0
+	body_box.collision_layer = 4 if on and alive else 0
+	if model:
+		model.visible = on and alive
 
 func suppress(_amount: float) -> void:
 	pass

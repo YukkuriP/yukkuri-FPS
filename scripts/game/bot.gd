@@ -132,7 +132,7 @@ func _think() -> void:
 		if d > best_d:
 			continue
 		if s != last_attacker and d > 12.0:
-			var to := (s.global_position - global_position).normalized()
+			var to: Vector3 = (s.global_position - global_position).normalized()
 			var fwd := Vector3(-sin(yaw), 0, -cos(yaw))
 			if fwd.dot(to) < 0.1:
 				continue
