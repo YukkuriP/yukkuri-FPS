@@ -1,0 +1,33 @@
+# CI for YUKKURI STRIKE (created by ゆっくりP)
+name: CI
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+        working-directory: server
+      - run: npm test
+        working-directory: server
+  game-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.3
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q Godot_v4.3-stable_linux.x86_64.zip
+          sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+      - name: Import & parse all scripts
+        run: godot --headless --path . --import 2>&1 | tee import.log; ! grep -q "SCRIPT ERROR" import.log
+      - name: Smoke test (world, match, bots, vehicles, destruction)
+        run: timeout 600 godot --headless --path . -- --smoke-test 2>&1 | tee smoke.log; grep -q "\[smoke\] OK" smoke.log
+      - name: README.txt generation
+        run: python3 tools/build.py --readme-only && grep -q "ゆっくりP" dist/README.txt

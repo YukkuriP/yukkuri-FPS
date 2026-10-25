@@ -1,0 +1,17 @@
+{
+  "name": "yukkuri-strike-server",
+  "version": "0.1.0",
+  "description": "Lightweight WebSocket game server for YUKKURI STRIKE (Render.com). Created by ゆっくりP.",
+  "author": "ゆっくりP",
+  "license": "MIT",
+  "main": "index.js",
+  "type": "commonjs",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

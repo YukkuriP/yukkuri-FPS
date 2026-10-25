@@ -1,0 +1,9 @@
+.godot/
+build/
+dist/
+*.import
+!icon.svg.import
+server/node_modules/
+*.keystore
+export_credentials.cfg
+__pycache__/
