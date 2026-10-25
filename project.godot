@@ -1,0 +1,61 @@
+; Engine configuration file.
+; Yukkuri Strike - created by ゆっくりP
+
+config_version=5
+
+[application]
+
+config/name="Yukkuri Strike"
+config/description="Free cross-platform multiplayer FPS prototype by ゆっくりP"
+config/version="0.1.0"
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+boot_splash/bg_color=Color(0.03, 0.035, 0.04, 1)
+boot_splash/show_image=false
+config/icon="res://icon.svg"
+
+[autoload]
+
+Settings="*res://scripts/core/settings.gd"
+I18n="*res://scripts/core/i18n.gd"
+Sfx="*res://scripts/core/sfx.gd"
+Net="*res://scripts/net/net.gd"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=4
+window/vsync/vsync_mode=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=false
+
+[layer_names]
+
+3d_physics/layer_1="world"
+3d_physics/layer_2="player"
+3d_physics/layer_3="hitbox"
+3d_physics/layer_4="vehicle"
+3d_physics/layer_5="debris"
+
+[physics]
+
+common/physics_ticks_per_second=60
+3d/default_gravity=9.81
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.mobile="mobile"
+textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=0
+anti_aliasing/quality/screen_space_aa=1
+lights_and_shadows/directional_shadow/size=4096
+lights_and_shadows/directional_shadow/size.mobile=2048
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality.mobile=1
+environment/defaults/default_clear_color=Color(0.05, 0.06, 0.07, 1)
